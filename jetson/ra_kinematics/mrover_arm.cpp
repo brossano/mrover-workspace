@@ -3,6 +3,7 @@
 #include "motion_planner.hpp"
 #include "kinematics.hpp"
 #include "spline.h"
+#include <lcm/lcm-cpp.hpp>
 #include "rover_msgs/ArmPosition.hpp"
 #include "rover_msgs/MotionExecute.hpp"
 #include "rover_msgs/FKTransform.hpp"
@@ -10,7 +11,7 @@
 using namespace std;
 using namespace Eigen;
  
-MRoverArm::MRoverArm(json &geom, lcm::LCM &lcm) : done_previewing(false), enable_execute(false), sim_mode(true), ik_enabled(false), state(ArmState(geom)), lcm_(lcm), solver(KinematicsSolver()), motion_planner(MotionPlanner(solver))  {}
+MRoverArm::MRoverArm(json &geom, lcm::LCM &lcm) : geom(geom), state(ArmState(geom)), solver(KinematicsSolver()), motion_planner(MotionPlanner(state, solver)), lcm_(lcm), done_previewing(false), enable_execute(false), sim_mode(true), ik_enabled(false)  {}
  
 void MRoverArm::arm_position_callback(string channel, ArmPosition msg){
    /*
@@ -43,7 +44,7 @@ void MRoverArm::publish_config(vector<double> &config, string channel){
        arm_position.joint_d = config[3];
        arm_position.joint_e = config[4];
        arm_position.joint_f = config[5];
-       lcm_.publish(channel, arm_position); //no matching call to publish should take in const msg type msg
+       lcm_.publish(channel, &arm_position); //no matching call to publish should take in const msg type msg
  
 }
  
