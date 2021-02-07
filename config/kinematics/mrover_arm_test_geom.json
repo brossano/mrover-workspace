@@ -1,0 +1,320 @@
+{
+  "name": "mrover_arm",
+  "origin": {
+      "xyz": [
+          0,
+          0,
+          0
+      ],
+      "rpy": [
+          0,
+          0,
+          0
+      ]
+  },
+  "base": "chassis-a",
+  "links": {
+      "chassis-a": {
+          "visual": {
+              "origin": {
+                  "joint_origin": "joint_a",
+                  "xyz": [
+                      0,
+                      0,
+                      0
+                  ],
+                  "rpy": [
+                      0,
+                      0,
+                      0
+                  ]
+              },
+              "geometry": {
+                  "mesh": {
+                      "filename": "chassis-a.stl"
+                  }
+              },
+              "material": {
+                  "color": {
+                      "rgba": [
+                          0.356,
+                          0.361,
+                          0.376,
+                          1
+                      ]
+                  }
+              }
+          },
+          "link_shapes": { },
+          "mass_data" : {
+              "mass": 0.46,
+              "com": {
+                  "x": 0.0001778,
+                  "y": -0.0555963,
+                  "z": -0.0406400
+              }
+          }
+      },
+      "a-b": {
+          "visual": {
+              "origin": {
+                  "joint_origin": "joint_a",
+                  "xyz": [
+                      0,
+                      0,
+                      0
+                  ],
+                  "rpy": [
+                      0,
+                      0,
+                      0
+                  ]
+              },
+              "geometry": {
+                  "mesh": {
+                      "filename": "a-b.stl"
+                  }
+              },
+              "material": {
+                  "color": {
+                      "rgba": [
+                          0.356,
+                          0.361,
+                          0.376,
+                          1
+                      ]
+                  }
+              }
+          },
+          "link_shapes": { },
+          "mass_data":{
+              "mass": 0,
+              "com": {
+                  "x": 0.0045798,
+                  "y": -0.0000315,
+                  "z": 0.0274948
+              }
+          }
+      },
+      "b-c": {
+          "visual": {
+              "origin": {
+                  "joint_origin": "joint_b",
+                  "xyz": [
+                      0,
+                      0,
+                      0.1
+                  ],
+                  "rpy": [
+                      0,
+                      0,
+                      0
+                  ]
+              },
+              "geometry": {
+                  "mesh": {
+                      "filename": "b-c.stl"
+                  }
+              },
+              "material": {
+                  "color": {
+                      "rgba": [
+                          0.356,
+                          0.361,
+                          0.376,
+                          1
+                      ]
+                  }
+              }
+          },
+          "link_shapes": { },
+          "mass_data":{
+              "mass": 1.48,
+              "com": {
+                  "x": 0.0009431,
+                  "y": -0.2501456,
+                  "z": 0.0450619
+              }
+          }
+      },
+      "hand": {
+          "visual": {
+              "origin": {
+                  "joint_origin": "joint_c",
+                  "xyz": [
+                      0,
+                      0,
+                      0.1
+                  ],
+                  "rpy": [
+                      0,
+                      0,
+                      0
+                  ]
+              },
+              "geometry": {
+                  "mesh": {
+                      "filename": "hand.stl"
+                  }
+              },
+              "material": {
+                  "color": {
+                      "rgba": [
+                          0.356,
+                          0.361,
+                          0.376,
+                          1
+                      ]
+                  }
+              },
+              "mass_data":{
+                  "mass": 1.08,
+                  "com": {
+                      "x": -0.0165324,
+                      "y": 0.0202142,
+                      "z": 0.0201581
+                  }
+              }
+          },
+          "link_shapes": { }
+      }
+  },
+  
+  "joints": {
+      "joint_a": {
+          "parent": "chassis-a",
+          "child": "a-b",
+          "origin": {
+              "xyz": [
+                  0,
+                  0,
+                  0
+              ],
+              "rpy": [
+                  0,
+                  0,
+                  0
+              ]
+          },
+          "axis": [
+              0,
+              0,
+              1
+          ],
+          "type": "continuous",
+          "limit": {
+              "lower": -3.14,
+              "upper": 3.14
+          },
+          "mass_data":{
+              "mass": 0.69,
+              "com": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+              }
+          }
+      },
+      "joint_b": {
+          "parent": "a-b",
+          "child": "b-c",
+          "origin": {
+              "xyz": [
+                  0,
+                  0,
+                  0.1
+              ],
+              "rpy": [
+                  0,
+                  0,
+                  0
+              ]
+          },
+          "axis": [
+              1,
+              0,
+              0
+          ],
+          "type": "revolute",
+          "limit": {
+              "lower": -1.57,
+              "upper": 1.57
+          },
+          "mass_data":{
+              "mass": 0,
+              "com": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+              }
+          }
+      },
+      "joint_c": {
+          "parent": "b-c",
+          "child": "hand",
+          "origin": {
+              "xyz": [
+                  0,
+                  0,
+                  0.1
+              ],
+              "rpy": [
+                  0,
+                  0,
+                  0
+              ]
+          },
+          "axis": [
+              0,
+              1,
+              0
+          ],
+          "type": "revolute",
+          "limit": {
+              "lower": -3.14,
+              "upper": 3.14
+          },
+          "mass_data":{
+              "mass": 0.16,
+              "com": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+              }
+          }
+      } 
+  },
+  "endeffector": {
+      "frame": "joint_c",
+      "origin": {
+          "xyz": [
+              -0.02829814000,
+              0.1338834000,
+              0
+          ]
+      },
+      "position": [
+          [
+              0
+          ],
+          [
+              0
+          ],
+          [
+              0
+          ],
+          [
+              1
+          ]
+      ],
+      "mass_data":{
+          "mass": 0.69,
+          "com": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+          }
+      }
+  },
+  "links_geom_imported": true
+}
