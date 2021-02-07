@@ -36,7 +36,11 @@ TagDetector::TagDetector() {  //initializes detector object with pre-generated d
     // initialize other special parameters that we need to properly detect the URC (Alvar) tags
     alvarParams = new cv::aruco::DetectorParameters();
     alvarParams->markerBorderBits = 2;
+<<<<<<< HEAD:onboard/cv/artag_detector.cpp
+    alvarParams->doCornerRefinement = false; //change 1
+=======
     alvarParams->doCornerRefinement = false;
+>>>>>>> d58c7c3ba2e3925d9c72b49ff90d870cf6a873b9:jetson/percep/artag_detector.cpp
     alvarParams->polygonalApproxAccuracyRate = 0.08;
 }
 

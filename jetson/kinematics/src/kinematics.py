@@ -24,6 +24,18 @@ class KinematicsSolver:
         self.POS_WEIGHT = 1
         # try robot_ik
         self.FK(self.robot_state)
+        print("a-b")
+        print(robot_state.get_link_transform("a-b"))
+        print("b-c")
+        print(robot_state.get_link_transform("b-c"))
+        print("c-d")
+        print(robot_state.get_link_transform("c-d"))
+        print("d-e")
+        print(robot_state.get_link_transform("d-e"))
+        print("e-f")
+        print(robot_state.get_link_transform("e-f"))
+        print("hand")
+        print(robot_state.get_link_transform("hand"))
         self.target_pos_world = np.array([0, 0, 0])
         self.e_locked = False
 
@@ -35,7 +47,6 @@ class KinematicsSolver:
     def FK(self, cur_robot):
         '''
             Forward kinematics using custom convention
-
             # Returns:
                 Transforms for all joints (published on LCM)
         '''
@@ -43,6 +54,7 @@ class KinematicsSolver:
         # links = self.robot_state.all_links
 
         global_transform = np.eye(4)
+        # print(global_transform)
         # rot_axis_parent = np.array([0, 0, 1])
 
         cur_robot.set_link_transform(cur_robot.geom['base'], np.eye(4))
@@ -52,6 +64,8 @@ class KinematicsSolver:
         for joint in joints:
 
             xyz = copy.deepcopy(np.array(cur_robot.get_joint_xyz(joint)))
+            print("xyz: ")
+            print(xyz)
             rot_axis_child = np.array(cur_robot.get_joint_axis(joint))
 
             # set theta: retrieve joint angle!
@@ -138,28 +152,24 @@ class KinematicsSolver:
         '''
             Inverse kinematics for MRover arm using cyclic
             coordinate descent (CCD)
-
             Params:
                 target_point (np.array([x, y, z, alpha, beta, gamma])):
                 target point in 3d space
                     for end effector
                 set_random_angles: asks solver to set joint angles to random
                     angles. Used to escape local minima
-
             Returns:
                 joint_angles (list)
                 bool : whether the robot arm was able to find
                     joint angles that allow it to reach within a threshold
                     of the target location
-
             Reference:
                 http://www.cs.cmu.edu/~15464-s13/assignments/assignment2/jlander_gamedev_nov98.pdf
                 http://www.cs.cmu.edu/~15464-s13/lectures/lecture6/IK.pdf
-
         '''
         print("RUNNING IK")
 
-        print(target_point)
+        print("Target Point: ", target_point)
 
         num_iterations = 0
         self.target_pos_world = target_point[:3]
@@ -170,6 +180,10 @@ class KinematicsSolver:
         self.robot_ik = copy.deepcopy(self.robot_state)
         links = self.robot_ik.all_links
         joints = self.robot_ik.all_joints
+        # print("joints: ")
+        # print(joints)
+        # print("links: ")
+        # print(links)
 
         if (set_random_angles):
             # set random joint angles (should be used to deal with
@@ -233,7 +247,6 @@ class KinematicsSolver:
             d_ef = self.j_kp * ef_to_target_b_weights\
                 - self.j_kd * (ef_v * (ef_to_target_vec_world /
                                        LA.norm(ef_to_target_vec_world)))
-
             # print("made d_ef")
             # print("About to Run IK Step")
             self.IK_step(d_ef, True, use_euler_angles)
@@ -241,6 +254,8 @@ class KinematicsSolver:
 
             # iterate
             ef_vec_world = self.robot_ik.get_world_point_angles(links[-1])
+            print("ef_vec_world: ")
+            print(ef_vec_world)
             # print(ef_vec_world)
             ef_pos_world = self.robot_ik.get_ef_pos_world()
             ef_ang_world = ef_vec_world[3:]
@@ -340,6 +355,8 @@ class KinematicsSolver:
                 joint_xform = self.robot_ik.get_joint_transform(joint)
                 joint_pos_world = self.robot_ik.get_world_point(
                                     self.robot_ik.get_child(joint))
+                # print("child: ")
+                # print(self.robot_ik.get_child(joint))
 
                 rot_axis_world = apply_transformation(joint_xform,
                                                       rot_axis_local)
