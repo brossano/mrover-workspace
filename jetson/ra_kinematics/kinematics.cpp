@@ -444,6 +444,7 @@ bool KinematicsSolver::limit_check(ArmState &robot_state, const vector<double> &
             return false;
         }
     }
+
     // if all angles are in bounds
     return true;
 }

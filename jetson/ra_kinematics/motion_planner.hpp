@@ -6,6 +6,7 @@
 #include "arm_state.hpp"
 #include "kinematics.hpp"
 #include <map>
+#include <random>
 
 #include "spline.h"
 
@@ -22,11 +23,13 @@ private:
 
     vector<tk::spline> splines;
 
+    /**
+     * all_limits[i]["lower | upper"] returns i'th limit in degrees
+     * */
     vector< map<string, double> > all_limits;
 
-    vector<int> step_limits;
+    vector<double> step_limits;
 
-    int neighbor_dist;
     int max_iterations;
     
 
@@ -46,6 +49,9 @@ private:
     Node* start_root;
     Node* goal_root;
 
+    // random engine for sample()
+    std::default_random_engine eng;
+
     // for testing only
     int spline_size;
 
@@ -57,7 +63,7 @@ public:
      * 
      * @return true if a path was found
      * */
-    bool rrt_connect(ArmState& robot, Vector6d& target);
+    bool rrt_connect(ArmState& robot, const Vector6d& target_position);
 
     /**
      * @param spline_t a time between 0 and 1

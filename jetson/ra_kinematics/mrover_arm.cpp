@@ -163,7 +163,7 @@ void MRoverArm::target_orientation_callback(string channel, TargetOrientation ms
    point(4) = (double)point_msg.beta;
    point(5) = (double)point_msg.gamma;
  
-   bool success = false;
+//    bool success = false;
    pair<Vector6d, bool> ik_solution = solver.IK(state, point, false, use_orientation);
   
    for(int i = 0; i<5; ++i){
@@ -233,12 +233,12 @@ void MRoverArm::plan_path(Vector6d goal){
    }
 }
  
-void MRoverArm::simulation_mode_callback(string channel, SimulationMode msg){
-   SimulationMode simulation_mode_msg = msg;
+// void MRoverArm::simulation_mode_callback(string channel, SimulationMode msg){
+//    SimulationMode simulation_mode_msg = msg;
  
-   bool sim_mode = simulation_mode_msg.sim_mode;
-   publish_transforms(state);
-}
+// //    bool sim_mode = simulation_mode_msg.sim_mode;
+//    publish_transforms(state);
+// }
  
 // void MRoverArm::cartesian_control_callback(string channel, IkArmControl msg){
 //    if(enable_execute){
